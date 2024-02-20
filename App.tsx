@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { fetchRates } from "./src/api/CurrencyAPI";
+import HomeScreen from "./src/screens/HomeScreen";
 
-export default function App() {
+let currency = 'USD';
+
+const App = () => {
+  useEffect(() => {
+    fetchRates(currency).then(rates => {
+      if (rates) {
+        console.log(`${currency} için döviz kurları:`, rates);
+      }
+    });
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <View style={styles.container}>
+        <HomeScreen />
+      </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  }
 });
+
+export default App;
